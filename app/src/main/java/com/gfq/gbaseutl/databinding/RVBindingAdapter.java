@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -18,19 +19,7 @@ import java.util.List;
  */
 public abstract class RVBindingAdapter<T> extends RecyclerView.Adapter<SuperBindingViewHolder> {
 
-    private int currentPage = 0;
-    private int totalPage;
-    private int pageSize = 10;
-    private int currenPageIndex;
-    private PageBean pageBean;
 
-    public PageBean getPageBean() {
-        return pageBean;
-    }
-
-    public void setPageBean(PageBean pageBean) {
-        this.pageBean = pageBean;
-    }
 
     boolean edit;
 
@@ -55,9 +44,10 @@ public abstract class RVBindingAdapter<T> extends RecyclerView.Adapter<SuperBind
     }
 
     @Override
-    public SuperBindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SuperBindingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(getLayoutId(), parent, false);
         return new SuperBindingViewHolder(itemView);
+
     }
 
 
@@ -113,79 +103,4 @@ public abstract class RVBindingAdapter<T> extends RecyclerView.Adapter<SuperBind
         notifyDataSetChanged();
     }
 
-    private class PageBean {
-        private boolean cancle;
-        private int currentPage;
-        private int nextPage;
-        private int pageSize;
-        private int prePage;
-        private int start;
-        private int totalCount;
-        private int totalPage;
-
-        public boolean isCancle() {
-            return cancle;
-        }
-
-        public void setCancle(boolean cancle) {
-            this.cancle = cancle;
-        }
-
-        public int getCurrentPage() {
-            return currentPage;
-        }
-
-        public void setCurrentPage(int currentPage) {
-            this.currentPage = currentPage;
-        }
-
-        public int getNextPage() {
-            return nextPage;
-        }
-
-        public void setNextPage(int nextPage) {
-            this.nextPage = nextPage;
-        }
-
-        public int getPageSize() {
-            return pageSize;
-        }
-
-        public void setPageSize(int pageSize) {
-            this.pageSize = pageSize;
-        }
-
-        public int getPrePage() {
-            return prePage;
-        }
-
-        public void setPrePage(int prePage) {
-            this.prePage = prePage;
-        }
-
-        public int getStart() {
-            return start;
-        }
-
-        public void setStart(int start) {
-            this.start = start;
-        }
-
-        public int getTotalCount() {
-            return totalCount;
-        }
-
-        public void setTotalCount(int totalCount) {
-            this.totalCount = totalCount;
-        }
-
-        public int getTotalPage() {
-            return totalPage;
-        }
-
-        public void setTotalPage(int totalPage) {
-            this.totalPage = totalPage;
-        }
-
-    }
 }
