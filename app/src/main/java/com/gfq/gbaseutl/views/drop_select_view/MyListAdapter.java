@@ -8,7 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.yagujinfu.android.R;
+
+import com.gfq.gbaseutl.R;
 
 import java.util.List;
 

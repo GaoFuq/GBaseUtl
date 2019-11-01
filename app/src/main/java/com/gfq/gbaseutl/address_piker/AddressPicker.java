@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 
 import com.gfq.gbaseutl.R;
-import com.gfq.gbaseutl.views.wheelview.OnItemSelectedListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
