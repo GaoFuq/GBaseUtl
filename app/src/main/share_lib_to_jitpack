@@ -1,0 +1,14 @@
+
+1.根gradle:
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+
+2.app module gradle:
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.github.dcendents.android-maven'
+    group='com.github.GaoFuq'
+
+3.git share
+
+4.release
+
+5.jitpack.io get it

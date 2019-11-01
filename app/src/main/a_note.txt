@@ -19,11 +19,13 @@
 
     //二维码
 	implementation 'com.google.zxing:core:3.3.0'
+	implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
 
 	//权限
     implementation 'pub.devrel:easypermissions:3.0.0'
 
 
+        //=====================================================================================================================
 
 addressPiker:
         public void onChooseAddressClicked() {
@@ -39,3 +41,48 @@ addressPiker:
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             }
+
+
+        //=====================================================================================================================
+
+  单例：
+        双锁：
+        class Example {
+
+        	private static Example instance;
+
+        	private Example() {}
+
+        	public static Example getInstance() {
+        			if (null == instance) {
+        				synchronized (Example.class) {
+        					if(null == instance) {
+        						instance = new Example();
+        					}
+        				}
+        			}
+        		return instance;
+        	}
+        }
+
+        静态内部类：
+        class SingletonStaticInner {
+        	private SingletonStaticInner() {
+
+        	}
+        	private static class SingletonInner {
+        		private static SingletonStaticInner singletonStaticInner = new SingletonStaticInner();
+        	}
+        	public static SingletonStaticInner getInstance() {
+        		return SingletonInner.singletonStaticInner;
+        	}
+        }
+
+        //=====================================================================================================================
+
+        以屏幕的宽度为基准，等比例缩放到屏幕大小
+                      <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"/>

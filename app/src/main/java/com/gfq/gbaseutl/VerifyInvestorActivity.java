@@ -28,9 +28,8 @@ import static com.gfq.gbaseutl.util.FileUtil.getRealPathFromURI;
 /**
  * 作者：高富强
  * 日期：2019/8/12 9:21
- * 描述：投资者认定界面
+ * 描述：打开系统文件选择界面，并返回选择的文件的路径
  *
- * @author Administrator
  */
 public class VerifyInvestorActivity extends Activity {
 

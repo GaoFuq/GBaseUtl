@@ -768,6 +768,8 @@ public class WheelView extends View {
         }
     }
 
+
+
     public boolean isLoop() {
         return isLoop;
     }
