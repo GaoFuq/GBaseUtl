@@ -15,7 +15,7 @@ Step 2. Add the dependency
 	}
 
 
-
+#使用
 
 ```
   @Override
@@ -32,12 +32,12 @@ Step 2. Add the dependency
             addressPicker.show();
         });
 
-
+	//横向均分item
         binding.recycleView.setOnClickListener(v -> controller.navigate(R.id.action_home_to_RVBindingRecycleView));
 
         binding.btnSelect.setOnClickListener(v -> controller.navigate(R.id.action_home_to_dropSelect));
 
-
+	//底部圆角日历Dialog
         binding.btnBottomCalendar.setOnClickListener(v -> {
             if(calenderDialog==null) {
                 calenderDialog = new BottomCalenderDialog(getActivity());
@@ -73,20 +73,25 @@ Step 2. Add the dependency
             }
             dialog.show();
         });
-
+	
+	//圆角Dialog
         binding.btnRoundDialog.setOnClickListener(v -> {
             new RoundDialog(getActivity()).setTitle("标题").setContent("内容").show();
         });
 
+	//截屏
         binding.btnScreenshot.setOnClickListener(v -> {
                 ScreenShotUtil.shot(getActivity(), "ABCDEFG", System.currentTimeMillis() + "_haha");
         });
-
+	
+	
+	//改变状态栏
         binding.btnStatusBar.setOnClickListener(v -> {
             StatusBarUtils.setStatusBarColor(getActivity(), Color.RED);
         });
+	
 
-
+	//IO操作
         binding.btnWriteText2File.setOnClickListener(v -> {
                 FileUtil.writeTxtToFile("fdwafnuhfhjpfafj648646", Environment.getExternalStorageDirectory().getPath()+"/ABCDEFG/", "abc.txt");
             Toast.makeText(getActivity(),"/ABCDEFG/abc.txt" , Toast.LENGTH_LONG).show();
