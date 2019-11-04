@@ -19,6 +19,7 @@ import java.io.OutputStream;
  * create by 高富强
  * on {2019/11/1} {14:39}
  * desctapion: 屏幕截屏  ScreenShotUtil.shot(activity);  也可以将shot()方法 copy到外部扩展使用
+ * 注意：要先获取读写内存卡权限
  */
 public class ScreenShotUtil {
 
@@ -58,6 +59,7 @@ public class ScreenShotUtil {
      */
     public static Bitmap screenShot(Activity activity) {
         View view = activity.getWindow().getDecorView();
+//        View view = activity.getWindow().getContainer().peekDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         Bitmap bmp = view.getDrawingCache();
@@ -102,22 +104,6 @@ public class ScreenShotUtil {
     }
 
     public static void shot(Activity activity, String savePath, String saveName) {
-//        String shotFileName =System.currentTimeMillis() + "_screenshot.jpg";
-//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), shotFileName);
-//        Bitmap bitmap = screenShot(activity);
-//        try {
-//            if (!file.exists())
-//                file.createNewFile();
-//            boolean ret = save(bitmap, file, Bitmap.CompressFormat.JPEG, true);
-//            if (ret) {
-//                Toast.makeText(activity, "截图已保持至 " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-//        File file = new File(Environment.getExternalStorageDirectory()+"/yaguCaches/picture");
         if(!savePath.startsWith("/")){
             savePath="/"+savePath;
         }
@@ -125,14 +111,13 @@ public class ScreenShotUtil {
             savePath=savePath+"/";
         }
         File file = new File(Environment.getExternalStorageDirectory() + savePath);
-        if (!saveName.endsWith(".jpg") || !saveName.endsWith(".jpeg")) {
+        if (!saveName.endsWith(".jpg")) {
             saveName = saveName + ".jpg";
         }
         File jpg = new File(Environment.getExternalStorageDirectory() + savePath, saveName);
         Bitmap bitmap = screenShot(activity);
         try {
             if (!file.exists()) {
-                //file.createNewFile();
                 file.mkdirs();
             }
             if (!jpg.exists()) {

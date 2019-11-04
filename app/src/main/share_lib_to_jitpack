@@ -7,8 +7,8 @@
     apply plugin: 'com.github.dcendents.android-maven'
     group='com.github.GaoFuq'
 
-3.git share
+3.git -> import into version control -> share project on github
 
-4.release
+4.release -> copy clone url
 
-5.jitpack.io get it
+5.open jitpack.io  -> paste clone url -> get it

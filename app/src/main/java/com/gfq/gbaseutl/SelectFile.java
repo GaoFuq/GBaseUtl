@@ -28,12 +28,10 @@ import static com.gfq.gbaseutl.util.FileUtil.getRealPathFromURI;
 /**
  * 作者：高富强
  * 日期：2019/8/12 9:21
- * 描述：打开系统文件选择界面，并返回选择的文件的路径
+ * 描述：打开系统文件选择界面，并返回选择的文件的路径.模板样例Activity
  *
  */
-public class VerifyInvestorActivity extends Activity {
-
-
+public class SelectFile extends Activity {
     private String path;
 
     @Override
@@ -112,14 +110,14 @@ public class VerifyInvestorActivity extends Activity {
                         assetsVerify.setText("添加文件资料");
                         edRemarks.setText("");
                     });
-                    Toast.makeText(VerifyInvestorActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectFile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     Looper.prepare();
-                    Toast.makeText(VerifyInvestorActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectFile.this, "上传成功", Toast.LENGTH_SHORT).show();
                     finish();
                     Looper.loop();
                 }
