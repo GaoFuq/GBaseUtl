@@ -17,6 +17,7 @@ Step 2. Add the dependency
 
 
 
+```
   @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -111,3 +112,5 @@ Step 2. Add the dependency
 
           }
 }
+
+```
