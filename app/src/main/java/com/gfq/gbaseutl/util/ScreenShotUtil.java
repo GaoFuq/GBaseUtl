@@ -101,18 +101,49 @@ public class ScreenShotUtil {
         return src == null || src.getWidth() == 0 || src.getHeight() == 0;
     }
 
-    public static void shot(Activity activity) {
-        String shotFileName =System.currentTimeMillis() + "_screenshot.jpg";
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), shotFileName);
+    public static void shot(Activity activity, String savePath, String saveName) {
+//        String shotFileName =System.currentTimeMillis() + "_screenshot.jpg";
+//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), shotFileName);
+//        Bitmap bitmap = screenShot(activity);
+//        try {
+//            if (!file.exists())
+//                file.createNewFile();
+//            boolean ret = save(bitmap, file, Bitmap.CompressFormat.JPEG, true);
+//            if (ret) {
+//                Toast.makeText(activity, "截图已保持至 " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
+//        File file = new File(Environment.getExternalStorageDirectory()+"/yaguCaches/picture");
+        if(!savePath.startsWith("/")){
+            savePath="/"+savePath;
+        }
+         if(!savePath.endsWith("/")){
+            savePath=savePath+"/";
+        }
+        File file = new File(Environment.getExternalStorageDirectory() + savePath);
+        if (!saveName.endsWith(".jpg") || !saveName.endsWith(".jpeg")) {
+            saveName = saveName + ".jpg";
+        }
+        File jpg = new File(Environment.getExternalStorageDirectory() + savePath, saveName);
         Bitmap bitmap = screenShot(activity);
         try {
-            if (!file.exists())
-                file.createNewFile();
-            boolean ret = save(bitmap, file, Bitmap.CompressFormat.JPEG, true);
-            if (ret) {
-                Toast.makeText(activity, "截图已保持至 " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            if (!file.exists()) {
+                //file.createNewFile();
+                file.mkdirs();
             }
-        } catch (IOException e) {
+            if (!jpg.exists()) {
+                jpg.createNewFile();
+            }
+
+            boolean ret = save(bitmap, jpg, Bitmap.CompressFormat.JPEG, true);
+            if (ret) {
+                Toast.makeText(activity, "截图已保持至 " + jpg.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

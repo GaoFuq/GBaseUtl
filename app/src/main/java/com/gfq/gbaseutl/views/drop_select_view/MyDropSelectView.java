@@ -136,7 +136,9 @@ public class MyDropSelectView extends LinearLayout {
                     popListView.getChildAt(i).setBackgroundColor(Color.parseColor("#ffffff"));
                 }
             }
-            onItemClick.onItemClick(bean.getName(),pos);
+            if(onItemClick!=null) {
+                onItemClick.onItemClick(bean.getName(), pos);
+            }
         });
 
 

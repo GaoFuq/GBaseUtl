@@ -19,6 +19,21 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *              AddressPicker addressPicker;
+ *
+ *              if(addressPicker==null) {
+ *                 addressPicker = new AddressPicker(this);
+ *                 addressPicker.setAddressListener(new AddressPicker.OnAddressListener() {
+ *                     @Override
+ *                     public void onAddressSelected(String province, String city, String district) {
+ *                         Toast.makeText(RVTestActivity.this, province + city + district, Toast.LENGTH_SHORT).show();
+ *                     }
+ *                 });
+ *             }
+ *             addressPicker.show();
+ */
+
 public class AddressPicker extends Dialog implements View.OnClickListener{
 
     /**
