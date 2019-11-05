@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
 //    implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
     implementation 'com.haibin:calendarview:3.6.7'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
 }

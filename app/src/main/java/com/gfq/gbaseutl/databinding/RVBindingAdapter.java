@@ -20,7 +20,6 @@ import java.util.List;
 public abstract class RVBindingAdapter<T> extends RecyclerView.Adapter<SuperBindingViewHolder> {
 
 
-
     boolean edit;
 
     public boolean isEdit() {
@@ -82,12 +81,26 @@ public abstract class RVBindingAdapter<T> extends RecyclerView.Adapter<SuperBind
         notifyDataSetChanged();
     }
 
+    public void refresh(Collection<T> list) {
+        this.mDataList.clear();
+        this.mDataList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     public void addAll(Collection<T> list) {
         int lastIndex = this.mDataList.size();
         if (this.mDataList.addAll(list)) {
             notifyItemRangeInserted(lastIndex, list.size());
         }
     }
+
+    public void loadMore(Collection<T> list) {
+        int lastIndex = this.mDataList.size();
+        if (this.mDataList.addAll(list)) {
+            notifyItemRangeInserted(lastIndex, list.size());
+        }
+    }
+
 
     public void remove(int position) {
         this.mDataList.remove(position);
