@@ -60,7 +60,7 @@ public class RefreshView extends FrameLayout {
 
     private Context context;
 
-    private int currentPage = 1;//当前页
+    private int currentPage = 0;//当前页
     private int pageSize = 10;//每页数据条数
     private int totalPage = 100;//总页数
     private int totalCount = 1000;//数据总量
