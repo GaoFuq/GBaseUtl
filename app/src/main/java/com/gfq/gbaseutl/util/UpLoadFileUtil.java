@@ -38,6 +38,24 @@ import okhttp3.logging.HttpLoggingInterceptor;
  *
  *             }
  *         });
+ *
+ *         =========================================================================================
+ *       private void uploadImage(String step,String filePath) {
+ *          File file = new File(filePath);
+ *          if(!file.exist()){
+ *              Toast("文件不存在");
+ *              return;
+ *          }
+ *         MultipartBody.Builder builder = new MultipartBody.Builder();
+ *         builder.addFormDataPart("image", UUID.randomUUID().toString().replaceAll("-","")+".jpg", RequestBody.create(MediaType.parse("image/jpeg"), file));
+ *         APIService.call(APIService.api().uploadStepImage(getApp().getCurrentOrder().getNo(), step, builder.build()), this, new OnCallBack<String>() {
+ *             @Override
+ *             public void onSuccess(String s) {
+ *
+ *             }
+ *         });
+ *     }
+ *
  */
 public class UpLoadFileUtil {
     private MultipartBody.Builder builder;

@@ -15,10 +15,13 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.io.StringWriter;
 
 /**
  * FileUtils.writeTxtToFile(idPASideBase64, Environment.getExternalStorageDirectory().getPath()+"/ABCDEFG/", "xxxx.txt");
@@ -177,12 +180,11 @@ public class FileUtil {
     }
 
 
-
-    public static void deleteFile(File file){
-        if(file.exists()){ //判断文件是否存在
-            if(file.isFile()){ //判断是否是文件
+    public static void deleteFile(File file) {
+        if (file.exists()) { //判断文件是否存在
+            if (file.isFile()) { //判断是否是文件
                 file.delete();
-            }else if(file.isDirectory()){ //否则如果它是一个目录
+            } else if (file.isDirectory()) { //否则如果它是一个目录
                 File[] files = file.listFiles(); //声明目录下所有的文件 files[];
                 if (files != null) {
                     for (File value : files) { //遍历目录下所有的文件
@@ -191,13 +193,37 @@ public class FileUtil {
                 }
             }
             file.delete();
-        }else{
-            Log.e(TAG, "deleteFile: "+"文件不存在" );
+        } else {
+            Log.e(TAG, "deleteFile: " + "文件不存在");
+        }
+    }
+
+    /**
+     * 写入文本到电脑磁盘，安卓端不可用
+     *
+     * @param filePath 若filePath的文件不存在，则先创建该文件，
+     *                 再向其中写入content。若文件存在，则直接向其中写入content
+     *                 （每次写入的内容都会覆盖原来的内容）。
+     * @param content
+     */
+    public static void writeText2File(String filePath, String content) {
+        PrintWriter pw;
+        try {
+            pw = new PrintWriter(filePath);
+            pw.print(content);
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
 
-    // 将字符串写入到文本文件中
+    /**
+     *  安卓端，写入文本文件到储存卡指定目录
+     * @param strcontent
+     * @param filePath      Environment.getExternalStorageDirectory().getPath()+"/ABCDEFG/"
+     * @param fileName      "xxx.txt"
+     */
     public static void writeTxtToFile(String strcontent, String filePath, String fileName) {
         //生成文件夹之后，再生成文件，不然会出错
         File file = makeFilePath(filePath, fileName);
