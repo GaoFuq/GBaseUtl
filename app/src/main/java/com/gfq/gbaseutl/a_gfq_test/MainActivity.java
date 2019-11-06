@@ -1,10 +1,11 @@
-/*
 package com.gfq.gbaseutl.a_gfq_test;
 
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ViewGroup;
+
+import com.gfq.gbaseutl.R;
 
 
 public class MainActivity extends BaseActivity {
@@ -67,4 +68,3 @@ public class MainActivity extends BaseActivity {
 
 
 }
-*/

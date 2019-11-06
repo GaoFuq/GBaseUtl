@@ -1,4 +1,3 @@
-/*
 package com.gfq.gbaseutl.a_gfq_test;
 
 import android.content.Context;
@@ -6,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.code.mvvm.R;
+import com.gfq.gbaseutl.R;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 public class CleanVideoView extends StandardGSYVideoPlayer {
@@ -52,4 +51,3 @@ public class CleanVideoView extends StandardGSYVideoPlayer {
         return true;
     }
 }
-*/
