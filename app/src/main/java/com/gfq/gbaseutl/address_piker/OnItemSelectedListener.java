@@ -1,6 +1,6 @@
 package com.gfq.gbaseutl.address_piker;
 
 
-public interface OnItemSelectedListener {
+ interface OnItemSelectedListener {
     void onItemSelected(int index);
 }
