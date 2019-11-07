@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 
@@ -64,15 +65,15 @@ public class AdView extends FrameLayout {
         ad2.setPath("https://tvideo.bxapp.cn/video/standard/c7f095c2-2893-4f8a-84b3-a5f686f343d3.mp4");
         ad2.setTime(15);
 
-      /*  Ad ad3 = new Ad();
+        Ad ad3 = new Ad();
         ad3.setType("图片");
         ad3.setPath("http://e.hiphotos.baidu.com/image/pic/item/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg");
-        ad3.setTime(3);*/
+        ad3.setTime(3);
 
 
         mAds.add(ad1);
         mAds.add(ad2);
-//        mAds.add(ad3);
+        mAds.add(ad3);
 
         Log.e("TAG", "数据ad1" + mAds.get(0).getPath());
         Log.e("TAG", "数据ad2" + mAds.get(1).getPath());
@@ -104,12 +105,7 @@ public class AdView extends FrameLayout {
 
             }
         });
-        mViewPager.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        mViewPager.setOnTouchListener((v, event) -> true);
         initPlayer();
     }
 
@@ -354,7 +350,7 @@ public class AdView extends FrameLayout {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 String path = "http://192.168.10.171:8888" + "/" + item.getPath();
                 Log.e("TAG", "图片地址" + path);
-//                Glide.with(container.getContext()).load(item.getPath()).into(imageView);//-------------------------------
+                Glide.with(container.getContext()).load(item.getPath()).into(imageView);//-------------------------------
                 container.addView(imageView);
                 return imageView;
             }

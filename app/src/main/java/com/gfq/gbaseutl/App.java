@@ -1,10 +1,19 @@
 package com.gfq.gbaseutl;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.Toast;
 
+import com.gfq.gbaseutl.a_gfq_test.BaseActivity;
 import com.gfq.gbaseutl.a_gfq_test.OnCallBack;
+import com.gfq.gbaseutl.net.NetworkReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 
 import java.io.PrintWriter;
@@ -16,6 +25,14 @@ import java.io.StringWriter;
  * desctapion:
  */
 public class App extends Application implements ComponentCallbacks2 {
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+    }
+
 
     @Override
     public void onTrimMemory(int level) {

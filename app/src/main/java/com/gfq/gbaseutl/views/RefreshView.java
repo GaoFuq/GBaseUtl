@@ -1,10 +1,21 @@
 package com.gfq.gbaseutl.views;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -60,16 +71,44 @@ public class RefreshView extends FrameLayout {
 
     private Context context;
 
-    private int currentPage = 0;//当前页
+    private int currentPage = 1;//当前页
     private int pageSize = 10;//每页数据条数
     private int totalPage = 100;//总页数
     private int totalCount = 1000;//数据总量
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
+    private FrameLayout container;
     private RVBindingAdapter adapter;
+    private int layoutResId;
+    private int br_id;
     private LinearLayoutManager linearLayoutManager;
-    private int colum=2;
 
+    private NetDisconnectedView netDisconnectedView;
+
+    public NetDisconnectedView getNetDisconnectedView() {
+        return netDisconnectedView;
+    }
+
+    public View setNetDisconnectedView(@LayoutRes int layoutResId) {
+        this.netDisconnectedView.setContentView(layoutResId);
+        return this.netDisconnectedView;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
 
     public RefreshView(@NonNull Context context) {
         this(context, null);
@@ -89,15 +128,42 @@ public class RefreshView extends FrameLayout {
         View view = inflate(context, R.layout.refreshview, this);
         smartRefreshLayout = view.findViewById(R.id.smartrefresh);
         recyclerView = view.findViewById(R.id.recycleView);
+        container = view.findViewById(R.id.container);
         linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);//默认垂直LinearLayoutManager
 
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(context));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(context));
 
+        netDisconnectedView = new NetDisconnectedView(context);
+
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                if (!isNetworkConnected(context.getApplicationContext())) {
+                    Toast.makeText(context, "网络已断开", Toast.LENGTH_SHORT).show();
+                    ViewGroup parent = (ViewGroup) netDisconnectedView.getParent();
+                    if (parent == null) {
+                        container.addView(netDisconnectedView);
+                    } else {
+                        Log.e("RefreshView", "netDisconnectedView parent != null");
+                    }
+                    netDisconnectedView.addOnRetryLoadMoreListener();
+                    refreshLayout.finishLoadMore(false);
+                    return;
+                } else {
+                    ViewGroup parent = (ViewGroup) netDisconnectedView.getParent();
+                    if (parent != null) {
+                        postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                container.removeView(netDisconnectedView);
+                            }
+                        },500);
+                    } else {
+                        Log.e("RefreshView", "netDisconnectedView parent == null");
+                    }
+                }
                 if (refreshViewListener != null) {
                     currentPage++;
                     if (currentPage > totalPage) {
@@ -111,6 +177,30 @@ public class RefreshView extends FrameLayout {
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (!isNetworkConnected(context.getApplicationContext())) {
+                    Toast.makeText(context, "网络已断开", Toast.LENGTH_SHORT).show();
+                    ViewGroup parent = (ViewGroup) netDisconnectedView.getParent();
+                    if (parent == null) {
+                        container.addView(netDisconnectedView);
+                    } else {
+                        Log.e("RefreshView", "netDisconnectedView parent != null");
+                    }
+                    netDisconnectedView.addOnRetryRefreshListener();
+                    refreshLayout.finishRefresh(false);
+                    return;
+                } else {
+                    ViewGroup parent = (ViewGroup) netDisconnectedView.getParent();
+                    if (parent != null) {
+                        postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                container.removeView(netDisconnectedView);
+                            }
+                        },500);
+                    } else {
+                        Log.e("RefreshView", "netDisconnectedView parent == null");
+                    }
+                }
                 if (refreshViewListener != null) {
                     currentPage++;
                     if (currentPage > totalPage) {
@@ -119,13 +209,22 @@ public class RefreshView extends FrameLayout {
                         return;
                     }
                     refreshViewListener.requestRefresh(currentPage, pageSize, refreshLayout, adapter);
-//                   adapter.clear();
-//                   adapter.setDataList(list);
                 }
             }
         });
         smartRefreshLayout.autoRefresh();
     }
+
+    public void antuRefresh() {
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.autoRefresh();
+    }
+
+    public void antuLoadMore() {
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.autoLoadMore();
+    }
+
 
     public RefreshView setV_LinearLayoutManager() {
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -139,19 +238,17 @@ public class RefreshView extends FrameLayout {
     }
 
     public RefreshView setGridLayoutManager(int column) {
-        this.colum=column;
-        recyclerView.setLayoutManager(new GridLayoutManager(context,column));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, column));
         return this;
     }
 
-    //必须要GridLayoutManager
-    public RefreshView addItemDec(int spacing, boolean includeEdge){
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(colum,spacing,includeEdge));
+    public RefreshView addItemDec(int spanCount, int spacing, boolean includeEdge) {
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
         return this;
     }
-    public RefreshView setGridLayoutManager(int column,int orientation) {
-        this.colum=column;
-        recyclerView.setLayoutManager(new GridLayoutManager(context,column,orientation,false));
+
+    public RefreshView setGridLayoutManager(int column, int orientation) {
+        recyclerView.setLayoutManager(new GridLayoutManager(context, column, orientation, false));
         return this;
     }
 
@@ -174,6 +271,8 @@ public class RefreshView extends FrameLayout {
         void requestLoadMore(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter adapter);
 
         void requestRefresh(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter adapter);
+
+//        void onNetDisconnected();
     }
 
     private RefreshViewListener refreshViewListener;
@@ -182,21 +281,143 @@ public class RefreshView extends FrameLayout {
         this.refreshViewListener = refreshViewListener;
     }
 
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    private boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = null;
+            if (mConnectivityManager != null) {
+                mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            }
+            //获取连接对象
+            if (mNetworkInfo != null) {
+                //判断是TYPE_MOBILE网络
+                if (ConnectivityManager.TYPE_MOBILE == mNetworkInfo.getType()) {
+//                    LogManager.i("AppNetworkMgr", "网络连接类型为：TYPE_MOBILE");
+                    //判断移动网络连接状态
+                    NetworkInfo.State STATE_MOBILE = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
+                    if (STATE_MOBILE == NetworkInfo.State.CONNECTED) {
+//                        LogManager.i("AppNetworkMgrd", "网络连接类型为：TYPE_MOBILE, 网络连接状态CONNECTED成功！");
+                        return mNetworkInfo.isAvailable();
+                    }
+                }
+                //判断是TYPE_WIFI网络
+                if (ConnectivityManager.TYPE_WIFI == mNetworkInfo.getType()) {
+//                    LogManager.i("AppNetworkMgr", "网络连接类型为：TYPE_WIFI");
+                    //判断WIFI网络状态
+                    NetworkInfo.State STATE_WIFI = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+                    if (STATE_WIFI == NetworkInfo.State.CONNECTED) {
+//                        LogManager.i("AppNetworkMgr", "网络连接类型为：TYPE_WIFI, 网络连接状态CONNECTED成功！");
+                        return mNetworkInfo.isAvailable();
+                    }
+                }
+            }
+        }
+        return false;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
+    public class NetDisconnectedView extends FrameLayout {
+        private final int REFRESH = 100;
+        private final int LOADMORE = 200;
+        private int type;
+        private Context context;
+        private TextView tvTip;
+        private TextView tvRetry;
+        private ImageView imageView;
+        private View contentView;
 
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
+        public NetDisconnectedView(@NonNull Context context) {
+            this(context, null);
+        }
+
+        public NetDisconnectedView(@NonNull Context context, @Nullable AttributeSet attrs) {
+            this(context, attrs, 0);
+        }
+
+        public NetDisconnectedView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+            this.context = context;
+            initThis();
+        }
+
+        private void initThis() {
+            contentView = inflate(context, R.layout.no_net, this);
+            tvTip = contentView.findViewById(R.id.tv_tip);
+            tvRetry = contentView.findViewById(R.id.tv_retry);
+            imageView = contentView.findViewById(R.id.image);
+
+        }
+
+        private void addOnRetryLoadMoreListener() {
+            type = LOADMORE;
+            tvRetry.setOnClickListener(v -> smartRefreshLayout.autoLoadMore());
+        }
+
+        private void addOnRetryRefreshListener() {
+            type = REFRESH;
+            tvRetry.setOnClickListener(v -> smartRefreshLayout.autoRefresh());
+        }
+
+        public NetDisconnectedView setImage(@DrawableRes int resId) {
+            imageView.setImageResource(resId);
+            return this;
+        }
+
+        public NetDisconnectedView setTipText(String tipText) {
+            tvTip.setText(tipText);
+            return this;
+        }
+
+        public NetDisconnectedView setRetryText(String retryText) {
+            tvRetry.setText(retryText);
+            return this;
+        }
+
+        public NetDisconnectedView setRetryBackground(@DrawableRes int retryBg) {
+            tvRetry.setBackgroundResource(retryBg);
+            return this;
+        }
+
+        public NetDisconnectedView setTipTextColor(@ColorInt int color) {
+            tvTip.setTextColor(color);
+            return this;
+        }
+
+        public NetDisconnectedView setTipTextSize(float size) {
+            tvTip.setTextSize(size);
+            return this;
+        }
+
+
+        public TextView getTvRetry() {
+            return tvRetry;
+        }
+
+        public View setContentView(@LayoutRes int layoutResid) {
+            contentView = inflate(context, layoutResid, this);
+            return contentView;
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            float x = tvRetry.getX();
+            float y = tvRetry.getY();
+            int w = tvRetry.getWidth();
+            int h = tvRetry.getHeight();
+            boolean touched = event.getX() < x + w + 100 && event.getX() > x - 100 && event.getY() < y + h + 100 && event.getY() > y - 100;
+            if (type == REFRESH && touched) {
+                smartRefreshLayout.autoRefresh();
+            }
+            if (type == LOADMORE && touched) {
+                smartRefreshLayout.autoLoadMore();
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent ev) {
+            return true;
+        }
     }
 
 }
