@@ -1,3 +1,4 @@
+/*
 package com.gfq.gbaseutl.examples;
 
 import android.annotation.SuppressLint;
@@ -120,9 +121,11 @@ public class TakePhotoExampleActivity extends AppCompatActivity implements TakeP
         } else {
            //图片不存在
         }
+*/
 /**
  * ********************************************************************************************************************
- */     //上传图片
+ *//*
+     //上传图片
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.addFormDataPart("image", UUID.randomUUID().toString().replaceAll("-","")+".jpg", RequestBody.create(MediaType.parse("image/*"), file1));
         builder.addFormDataPart("key","value");
@@ -209,11 +212,13 @@ public class TakePhotoExampleActivity extends AppCompatActivity implements TakeP
         PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
     }
 
-    /**
+    */
+/**
      * 获取TakePhoto实例
      *
      * @return
-     */
+     *//*
+
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
@@ -233,3 +238,4 @@ public class TakePhotoExampleActivity extends AppCompatActivity implements TakeP
         super.onSaveInstanceState(outState);
     }
 }
+*/
