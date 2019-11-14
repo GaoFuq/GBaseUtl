@@ -35,8 +35,14 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
  * create by 高富强
  * on {2019/11/5} {10:30}
  * desctapion: 实现自动刷新加载数据
- *    int column = 2;
- *   binding.refreshView.setGridLayoutManager(column)
+ *         int column = 2;
+ *         RefreshView.NetDisconnectedView netDisconnectedView = binding.refreshView.getNetDisconnectedView();
+ *         netDisconnectedView.setImage(R.mipmap.ic_launcher);
+ *         netDisconnectedView.setRetryBackground(R.drawable.bg_retry);
+ *         netDisconnectedView.setTipText("网络已断开，请检查网络连接");
+ *         netDisconnectedView.setRetryText("立即重试");
+ *
+ *         binding.refreshView.setGridLayoutManager(column)
  *                 .setAdapter(new RVBindingAdapter<News.ResultBean>(this, BR.news) {
  *                     @Override
  *                     public void setPresentor(SuperBindingViewHolder holder, int position) {
@@ -49,9 +55,9 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
  *                     }
  *                 })
  *                 .addItemDec(20,true)
- *                 .setRefreshViewListener(new RefreshView.RefreshViewListener() {
+ *                 .setRefreshViewListener(new RefreshView.RefreshViewListener<News.ResultBean>() {
  *             @Override
- *             public void requestLoadMore(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter adapter) {
+ *             public void requestLoadMore(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter<News.ResultBean> adapter) {
  *                 APIService.call(APIService.api().getWangYiNews(currentPage + "", pageSize+""), data -> {
  *                     layout.finishLoadMore();
  *                     adapter.loadMore(data.getResult());
@@ -59,7 +65,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
  *             }
  *
  *             @Override
- *             public void requestRefresh(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter adapter) {
+ *             public void requestRefresh(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter<News.ResultBean> adapter) {
  *                 APIService.call(APIService.api().getWangYiNews(currentPage + "", pageSize+""), data -> {
  *                     layout.finishRefresh();
  *                     adapter.refresh(data.getResult());
@@ -79,11 +85,10 @@ public class RefreshView extends FrameLayout {
     private SmartRefreshLayout smartRefreshLayout;
     private FrameLayout container;
     private RVBindingAdapter adapter;
-    private int layoutResId;
-    private int br_id;
     private LinearLayoutManager linearLayoutManager;
 
     private NetDisconnectedView netDisconnectedView;
+    private boolean isAutoRefreshOnStart = true;
 
     public NetDisconnectedView getNetDisconnectedView() {
         return netDisconnectedView;
@@ -171,6 +176,10 @@ public class RefreshView extends FrameLayout {
                         refreshLayout.finishLoadMoreWithNoMoreData();
                         return;
                     }
+                    if(adapter==null){
+                        Log.e("RefreshView", "adapter == null");
+                        return;
+                    }
                     refreshViewListener.requestLoadMore(currentPage, pageSize, refreshLayout, adapter);
                 }
             }
@@ -208,11 +217,22 @@ public class RefreshView extends FrameLayout {
                         refreshLayout.finishRefreshWithNoMoreData();
                         return;
                     }
+                    if(adapter==null){
+                        Log.e("RefreshView", "adapter == null");
+                        return;
+                    }
                     refreshViewListener.requestRefresh(currentPage, pageSize, refreshLayout, adapter);
                 }
             }
         });
-        smartRefreshLayout.autoRefresh();
+
+        if(isAutoRefreshOnStart) {
+            smartRefreshLayout.autoRefresh();
+        }
+    }
+
+    public void setAutoRefreshOnStart(boolean boo){
+        isAutoRefreshOnStart = boo;
     }
 
     public void antuRefresh() {
@@ -253,10 +273,8 @@ public class RefreshView extends FrameLayout {
     }
 
 
-    public RefreshView setAdapter(RecyclerView.Adapter adapter) {
-        if (adapter instanceof RVBindingAdapter) {
-            this.adapter = (RVBindingAdapter) adapter;
-        }
+    public RefreshView setAdapter(RVBindingAdapter adapter) {
+        this.adapter=adapter;
         recyclerView.setAdapter(adapter);
         return this;
     }
@@ -268,9 +286,9 @@ public class RefreshView extends FrameLayout {
 
 
     public interface RefreshViewListener<T> {
-        void requestLoadMore(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter adapter);
+        void requestLoadMore(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter<T> adapter);
 
-        void requestRefresh(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter adapter);
+        void requestRefresh(int currentPage, int pageSize, RefreshLayout layout, RVBindingAdapter<T> adapter);
 
 //        void onNetDisconnected();
     }

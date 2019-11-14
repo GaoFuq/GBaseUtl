@@ -1,7 +1,9 @@
 package com.gfq.gbaseutl.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,11 +14,12 @@ import java.util.Locale;
  */
 public class DateFormatUtil {
     private static DateFormat dateFormat;
-//    = new SimpleDateFormat("yy-MM-dd hh:mm:ss", Locale.CHINA);
+    //    = new SimpleDateFormat("yy-MM-dd hh:mm:ss", Locale.CHINA);
     private static Date date;
+
     //日期格式，精确到日 2017-4-16
-    public static String format(long timeMills){
-        date =  new Date(timeMills);
+    public static String format(long timeMills) {
+        date = new Date(timeMills);
         dateFormat = DateFormat.getDateInstance();
         return dateFormat.format(date);
     }
@@ -43,4 +46,29 @@ public class DateFormatUtil {
 
     //显示日期，时间（精确到秒） 2017-4-16 12:43:37
     DateFormat df7 = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+
+
+    /**
+     * 获取指定日期的时间戳
+     *
+     * @param dateStr yyyy-MM-dd hh:mm:ss
+     * @return 时间戳
+     */
+    public static long getTimeMillsFromDateString(String dateStr) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
+        Date date;
+        Calendar cal;
+        long timestamp = 0;
+        try {
+            date = df.parse(dateStr);
+            cal = Calendar.getInstance();
+            if (date != null) {
+                cal.setTime(date);
+            }
+            timestamp = cal.getTimeInMillis();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
 }
