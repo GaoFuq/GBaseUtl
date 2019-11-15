@@ -12,13 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 
 
 import com.gfq.gbaseutl.R;
@@ -39,13 +46,17 @@ public class MyDropSelectView extends LinearLayout {
     private String title;
     private int dropIcon;
     private int drop_title_changed_color;
+    private int checkImageViewResId=0;
     private Animation animation;
     private Animation animation2;
+//    private Animation dropDown;
+//    private Animation dropUp;
     private int drop_title_origin_color;
     private ListView popListView;
-    private MyListAdapter adapter;
+    private Adapter adapter;
+    private int drop_item_selected_background_color;
 
-    public List<SearchBean> getMenuData() {
+/*    public List<SearchBean> getMenuData() {
         return menuData;
     }
 
@@ -53,7 +64,7 @@ public class MyDropSelectView extends LinearLayout {
         this.menuData = menuData;
     }
 
-    private List<SearchBean> menuData;
+    private List<SearchBean> menuData;*/
 
     public MyDropSelectView(Context context) {
         super(context);
@@ -70,13 +81,46 @@ public class MyDropSelectView extends LinearLayout {
 
     }
 
+    public void setTitleText(String title) {
+        tvName.setText(title);
+    }
 
+    public void setTitleOriginColor(@ColorInt int color) {
+        drop_title_origin_color = color;
+    }
+
+    public void setTitleChangedColor(@ColorInt int color) {
+        drop_title_changed_color = color;
+    }
+
+    public void setCheckImageViewResId(@DrawableRes int resId){
+        checkImageViewResId = resId;
+    }
+
+    public void setDropIcon(@DrawableRes int icon) {
+        ivArrow.setImageResource(icon);
+    }
+
+    public void setItemSelectedBackfroundColor(@ColorInt int color) {
+        drop_item_selected_background_color = color;
+    }
+
+    public void setOtherAnim( int style){
+        popMenu.setAnimationStyle(style);
+    }
+    public void setMyAnim(){
+        popMenu.setAnimationStyle(R.style.PopupAnimation);
+    }
     private void initView() {
         //通过loadAnimation从XML文件中获取动画   利用startAnimation将动画传递给指定控件
         animation = AnimationUtils.loadAnimation(context, R.anim.rotate);
         animation.setFillAfter(true);
         animation2 = AnimationUtils.loadAnimation(context, R.anim.rotate2);
         animation2.setFillAfter(true);
+
+//        dropDown = AnimationUtils.loadAnimation(context, R.anim.drop_down);
+//        dropUp = AnimationUtils.loadAnimation(context, R.anim.drop_up);
+
 
         LayoutInflater.from(context).inflate(R.layout.my_drop_select_view, this);
 
@@ -121,22 +165,24 @@ public class MyDropSelectView extends LinearLayout {
         //底部点击关闭popWin
         contentView.findViewById(R.id.popwin_supplier_list_bottom).setOnClickListener(view -> popMenu.dismiss());
 
-        //adapter = new MyListAdapter(context, getMenuData());
-        // popListView.setAdapter(adapter);
 
         popListView.setOnItemClickListener((adapterView, view, pos, arg) -> {
             popMenu.dismiss();
             SearchBean bean = (SearchBean) adapter.getItem(pos);
             tvName.setText(bean.getName());
-            view.findViewById(R.id.iv_check).setVisibility(View.VISIBLE);
-            view.setBackgroundColor(Color.parseColor("#cdcdcd"));
+            ImageView ivCheck = view.findViewById(R.id.iv_check);
+            if(checkImageViewResId!=0) {
+                ivCheck.setImageResource(checkImageViewResId);
+            }
+            ivCheck.setVisibility(View.VISIBLE);
+            view.setBackgroundColor(drop_item_selected_background_color);
             for (int i = 0; i < adapter.getCount(); i++) {
                 if (i != pos) {
                     popListView.getChildAt(i).findViewById(R.id.iv_check).setVisibility(View.INVISIBLE);
                     popListView.getChildAt(i).setBackgroundColor(Color.parseColor("#ffffff"));
                 }
             }
-            if(onItemClick!=null) {
+            if (onItemClick != null) {
                 onItemClick.onItemClick(bean.getName(), pos);
             }
         });
@@ -149,6 +195,17 @@ public class MyDropSelectView extends LinearLayout {
         popListView.setAdapter(adapter);
     }
 
+    public void setAdapter(ListAdapter adapter) {
+        this.adapter = adapter;
+        popListView.setAdapter(adapter);
+    }
+
+    public void setAdapter(BaseAdapter adapter) {
+        this.adapter = adapter;
+        popListView.setAdapter(adapter);
+    }
+
+
     private void initAttrs(AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyDropSelectView);
 
@@ -157,13 +214,14 @@ public class MyDropSelectView extends LinearLayout {
         dropIcon = typedArray.getResourceId(R.styleable.MyDropSelectView_drop_icon, R.mipmap.ic_drop_view_down);
         drop_title_changed_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_title_changed_color, Color.parseColor("#39ac69"));
         drop_title_origin_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_title_origin_color, Color.parseColor("#333333"));
+        drop_item_selected_background_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_item_selected_background_color, Color.parseColor("#ffffff"));
 
         // 释放资源
         typedArray.recycle();
     }
 
 
-    public interface OnItemClick{
+    public interface OnItemClick {
         void onItemClick(String content, int position);
     }
 

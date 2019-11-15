@@ -15,8 +15,13 @@
     <!-- 对话框动画 -->
     <style name="windowAnimationStyle" parent="android:Animation">
         <!-- 进入时的动画 -->
-        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
         <!-- 退出时的动画 -->
-        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/drop_down</item>
+        <item name="android:windowExitAnimation">@anim/drop_up</item>
     </style>
 </resources>

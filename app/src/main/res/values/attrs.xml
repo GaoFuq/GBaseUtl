@@ -22,6 +22,7 @@
         <attr name="drop_icon" format="reference" />
         <attr name="drop_title_changed_color" format="color" />
         <attr name="drop_title_origin_color" format="color" />
+        <attr name="drop_item_selected_background_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="StickyScrollView">
