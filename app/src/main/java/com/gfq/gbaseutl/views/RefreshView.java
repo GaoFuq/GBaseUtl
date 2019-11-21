@@ -438,4 +438,39 @@ public class RefreshView extends FrameLayout {
         }
     }
 
+
+    private boolean alreadyTop = false;//是否已经吸顶
+    private boolean isOpenNested = false;
+
+    public void setOpenNested(boolean openNested) {
+        isOpenNested = openNested;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        if(isOpenNested) {
+            if (alreadyTop) {
+                return super.onTouchEvent(e);
+            }
+            return false;
+        }else {
+            return super.onTouchEvent(e);
+        }
+    }
+
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if(isOpenNested) {
+            if (t > oldt) {
+                alreadyTop = true;
+            }
+
+            if (t < oldt && t == 0) {
+                alreadyTop = false;
+            }
+        }
+    }
+
 }

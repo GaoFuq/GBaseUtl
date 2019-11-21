@@ -23,6 +23,7 @@
         <attr name="drop_title_changed_color" format="color" />
         <attr name="drop_title_origin_color" format="color" />
         <attr name="drop_item_selected_background_color" format="color" />
+        <attr name="drop_title_onclick_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="StickyScrollView">

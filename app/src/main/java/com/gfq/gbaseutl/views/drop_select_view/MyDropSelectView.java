@@ -55,6 +55,7 @@ public class MyDropSelectView extends LinearLayout {
     private ListView popListView;
     private Adapter adapter;
     private int drop_item_selected_background_color;
+    private int drop_title_onclick_color;
 
 /*    public List<SearchBean> getMenuData() {
         return menuData;
@@ -93,6 +94,10 @@ public class MyDropSelectView extends LinearLayout {
         drop_title_changed_color = color;
     }
 
+    public void setTitleOnClickColor(@ColorInt int color) {
+        drop_title_onclick_color = color;
+    }
+
     public void setCheckImageViewResId(@DrawableRes int resId){
         checkImageViewResId = resId;
     }
@@ -125,6 +130,9 @@ public class MyDropSelectView extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.my_drop_select_view, this);
 
         tvName = findViewById(R.id.tv_name);
+        if(drop_title_origin_color!=0){
+            tvName.setTextColor(drop_title_onclick_color);
+        }
         ivArrow = findViewById(R.id.iv_arrow);
         llContainer = findViewById(R.id.ll_container);
 
@@ -156,7 +164,7 @@ public class MyDropSelectView extends LinearLayout {
             popMenu.setExitTransition(transition);
         }
         popMenu.setOnDismissListener(() -> {
-            tvName.setTextColor(drop_title_origin_color);
+            tvName.setTextColor(drop_title_changed_color);
             ivArrow.startAnimation(animation2);
         });
 
@@ -195,15 +203,15 @@ public class MyDropSelectView extends LinearLayout {
         popListView.setAdapter(adapter);
     }
 
-    public void setAdapter(ListAdapter adapter) {
-        this.adapter = adapter;
-        popListView.setAdapter(adapter);
-    }
-
-    public void setAdapter(BaseAdapter adapter) {
-        this.adapter = adapter;
-        popListView.setAdapter(adapter);
-    }
+//    public void setAdapter(ListAdapter adapter) {
+//        this.adapter = adapter;
+//        popListView.setAdapter(adapter);
+//    }
+//
+//    public void setAdapter(BaseAdapter adapter) {
+//        this.adapter = adapter;
+//        popListView.setAdapter(adapter);
+//    }
 
 
     private void initAttrs(AttributeSet attrs) {
@@ -215,6 +223,7 @@ public class MyDropSelectView extends LinearLayout {
         drop_title_changed_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_title_changed_color, Color.parseColor("#39ac69"));
         drop_title_origin_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_title_origin_color, Color.parseColor("#333333"));
         drop_item_selected_background_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_item_selected_background_color, Color.parseColor("#ffffff"));
+        drop_title_onclick_color = typedArray.getColor(R.styleable.MyDropSelectView_drop_item_selected_background_color, Color.parseColor("#202020"));
 
         // 释放资源
         typedArray.recycle();
