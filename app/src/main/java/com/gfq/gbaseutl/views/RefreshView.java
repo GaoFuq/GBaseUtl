@@ -81,7 +81,7 @@ public class RefreshView extends FrameLayout {
     private int pageSize = 10;//每页数据条数
     private int totalPage = 100;//总页数
     private int totalCount = 1000;//数据总量
-    private RecyclerView recyclerView;
+    private MyRefreshRV recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private FrameLayout container;
     private RVBindingAdapter adapter;
@@ -439,38 +439,57 @@ public class RefreshView extends FrameLayout {
     }
 
 
-    private boolean alreadyTop = false;//是否已经吸顶
+
+    public class MyRefreshRV extends RecyclerView{
+        private boolean alreadyTop = false;//是否已经吸顶
+        public MyRefreshRV(@NonNull Context context) {
+            super(context);
+        }
+
+        public MyRefreshRV(@NonNull Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public MyRefreshRV(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent e) {
+            if(isOpenNested) {
+                if (alreadyTop) {
+                    return super.onTouchEvent(e);
+                }
+                return false;
+            }else {
+                return super.onTouchEvent(e);
+            }
+        }
+
+
+        @Override
+        protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+            super.onScrollChanged(l, t, oldl, oldt);
+            if(isOpenNested) {
+                if (t > oldt) {
+                    alreadyTop = true;
+                }
+
+                if (t < oldt && t == 0) {
+                    alreadyTop = false;
+                }
+            }
+        }
+
+    }
+
+
+
     private boolean isOpenNested = false;
 
     public void setOpenNested(boolean openNested) {
         isOpenNested = openNested;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        if(isOpenNested) {
-            if (alreadyTop) {
-                return super.onTouchEvent(e);
-            }
-            return false;
-        }else {
-            return super.onTouchEvent(e);
-        }
-    }
-
-
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-        if(isOpenNested) {
-            if (t > oldt) {
-                alreadyTop = true;
-            }
-
-            if (t < oldt && t == 0) {
-                alreadyTop = false;
-            }
-        }
-    }
 
 }
