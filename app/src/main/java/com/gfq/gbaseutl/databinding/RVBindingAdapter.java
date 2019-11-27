@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -90,6 +91,13 @@ public abstract class RVBindingAdapter<T> extends RecyclerView.Adapter<SuperBind
     public void addAll(Collection<T> list) {
         int lastIndex = this.mDataList.size();
         if (this.mDataList.addAll(list)) {
+            notifyItemRangeInserted(lastIndex, list.size());
+        }
+    }
+    public void addAllPre(Collection<T> list) {
+        int lastIndex = this.mDataList.size();
+        if (this.mDataList.addAll(list)) {
+//            Collections.reverse();
             notifyItemRangeInserted(lastIndex, list.size());
         }
     }

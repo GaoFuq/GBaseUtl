@@ -81,7 +81,7 @@ public class RefreshView extends FrameLayout {
     private int pageSize = 10;//每页数据条数
     private int totalPage = 100;//总页数
     private int totalCount = 1000;//数据总量
-    private MyRefreshRV recyclerView;
+    private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private FrameLayout container;
     private RVBindingAdapter adapter;
@@ -225,14 +225,17 @@ public class RefreshView extends FrameLayout {
                 }
             }
         });
-
-        if(isAutoRefreshOnStart) {
-            smartRefreshLayout.autoRefresh();
-        }
     }
 
     public void setAutoRefreshOnStart(boolean boo){
         isAutoRefreshOnStart = boo;
+    }
+
+    public void setCanRefresh(boolean b){
+        smartRefreshLayout.setEnableRefresh(b);
+    }
+    public void setCanLoadMore(boolean b){
+        smartRefreshLayout.setEnableLoadMore(b);
     }
 
     public void antuRefresh() {
@@ -438,10 +441,5 @@ public class RefreshView extends FrameLayout {
         }
     }
 
-
-
-    public void setOpenNested(boolean openNested) {
-       recyclerView.setOpenNested(openNested);
-    }
 
 }

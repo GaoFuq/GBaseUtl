@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
@@ -34,6 +35,7 @@ public  class RoundDialog {
     private TextView tvConfirm;
     private TextView tvContent;
     private FrameLayout container;
+    private LinearLayout llBottom;
     private View childView;
 
     public RoundDialog(Context context) {
@@ -42,10 +44,13 @@ public  class RoundDialog {
         init();
     }
 
+
+
     private void findViews() {
         view = LayoutInflater.from(context).inflate(R.layout.dialog_round, null);
         cardView = view.findViewById(R.id.cardView);
         container = view.findViewById(R.id.container);
+        llBottom = view.findViewById(R.id.ll_bottom);
         tvTitle = view.findViewById(R.id.tv_title);
         tvCancel = view.findViewById(R.id.tv_cancel);
         tvConfirm = view.findViewById(R.id.tv_confirm);
@@ -66,6 +71,9 @@ public  class RoundDialog {
     }
 
 
+    public void noActionButton(){
+        llBottom.setVisibility(View.GONE);
+    }
     private void init() {
         roundDialog = new AlertDialog.Builder(context).create();
         roundDialog.setView(view,100,0,100,100);
@@ -138,6 +146,12 @@ public  class RoundDialog {
     public RoundDialog setMyContentView(@LayoutRes int layout) {
         childView = LayoutInflater.from(context).inflate(layout, container);
         container.addView(childView);
+        return this;
+    }
+
+    public RoundDialog setMyContentView(View view) {
+        childView =view;
+        container.addView(view);
         return this;
     }
 
