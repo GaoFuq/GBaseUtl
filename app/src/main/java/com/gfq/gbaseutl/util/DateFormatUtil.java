@@ -16,6 +16,7 @@ public class DateFormatUtil {
     private static DateFormat dateFormat;
     //    = new SimpleDateFormat("yy-MM-dd hh:mm:ss", Locale.CHINA);
     private static Date date;
+    private static SimpleDateFormat format;
 
     //日期格式，精确到日 2017-4-16
     public static String format(long timeMills) {
@@ -51,11 +52,11 @@ public class DateFormatUtil {
     /**
      * 获取指定日期的时间戳
      *
-     * @param dateStr yyyy-MM-dd hh:mm:ss
+     * @param dateStr yyyy-MM-dd HH:mm:ss
      * @return 时间戳
      */
     public static long getTimeMillsFromDateString(String dateStr) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         Date date;
         Calendar cal;
         long timestamp = 0;
@@ -70,5 +71,25 @@ public class DateFormatUtil {
             e.printStackTrace();
         }
         return timestamp;
+    }
+
+
+
+    public enum FormatType{
+        yyyy_MM_dd("yyyy-MM-dd"),yyyy_MM_dd_HH_mm("yyyy-MM-dd HH:mm"),yy_MM_dd_HH_mm_ss("yyyy-MM-dd HH:mm:ss");
+
+        private String type;
+
+        FormatType(String s) {
+            type =s;
+        }
+
+        public String val() {
+            return type;
+        }
+    }
+    public static SimpleDateFormat getFormat(FormatType formatType) {
+        assert formatType.val() != null;
+        return  format = new SimpleDateFormat(formatType.val(), Locale.CHINA);
     }
 }

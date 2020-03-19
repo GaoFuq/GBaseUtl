@@ -3,6 +3,7 @@ package com.gfq.gbaseutl;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,11 +27,12 @@ import java.io.StringWriter;
  */
 public class App extends Application implements ComponentCallbacks2 {
 
+    public static  Context appContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        appContext=this;
     }
 
 

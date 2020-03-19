@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 119
-        versionName "1.1.9"
+        versionCode 120
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,6 +36,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//
+//    implementation 'com.badlogicgames.gdx:gdx:1.9.10'
+//    implementation 'com.badlogicgames.gdx:gdx-box2d:1.9.10'
+//    implementation 'com.badlogicgames.gdx:gdx-freetype:1.9.10'
+//    implementation 'com.badlogicgames.gdx:gdx-backend-android:1.9.10'
 
     api 'com.google.android.material:material:1.0.0'
     api 'androidx.recyclerview:recyclerview:1.0.0'
@@ -78,4 +83,9 @@ dependencies {
 
 
 //    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
+    implementation 'com.github.promeg:tinypinyin:1.0.0'
+
+    implementation 'org.apache.commons:commons-lang3:3.8'
+
 }
