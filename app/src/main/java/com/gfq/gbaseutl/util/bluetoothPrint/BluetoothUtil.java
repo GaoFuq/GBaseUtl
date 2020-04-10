@@ -14,6 +14,38 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+
+/**
+ *         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+ *         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
+ *         Log.e("TAG", "蓝牙设备" + device);
+ *         if (BluetoothUtil.isBluetoothOn()) {
+ *             boolean b = initPrintData();
+ *             if(!b){
+ *                 return;
+ *             }
+ *
+ *             BlueBoothPrintUtil.getInstance().connectDevice(device, printData, new BlueBoothPrintUtil.OnTaskListener() {
+ *                 @Override
+ *                 public void onPre() {
+ *                     tipDialog.setContent("请稍后...").show();
+ *                 }
+ *
+ *                 @Override
+ *                 public void onEnd(boolean success) {
+ *                     if (success) {
+ *                         tipDialog.setContent("打印完成！").show();
+ *                     } else {
+ *                         tipDialog.setContent("打印机未连接！").show();
+ *                     }
+ *                 }
+ *             });
+ *         } else {
+ *             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+ *             startActivityForResult(enableBtIntent, 666);
+ *         }
+ */
+
 public class BluetoothUtil {
 
     /**

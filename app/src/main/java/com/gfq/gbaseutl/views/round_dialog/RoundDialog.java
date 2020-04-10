@@ -180,6 +180,10 @@ public  class RoundDialog {
         return roundDialog;
     }
 
+    public void setCanceledOnTouchOutside(boolean b) {
+        roundDialog.setCanceledOnTouchOutside(b);
+    }
+
     public interface OnRoundDialogConfirmClickListner{
         void onConfirmClicked();
     }

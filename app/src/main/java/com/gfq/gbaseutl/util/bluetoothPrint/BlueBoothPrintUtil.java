@@ -49,16 +49,16 @@ public class BlueBoothPrintUtil {
 //            return false;
 //        }
 //    }
-    public BlueBoothPrintUtil connectDevice(BluetoothDevice device, int taskType) {
+    public BlueBoothPrintUtil connectDevice(BluetoothDevice device, int taskType,OnTaskListener onTaskListener) {
         if (device != null) {
-            mConnectTask = new ConnectBluetoothTask(taskType).execute(device);
+            mConnectTask = new ConnectBluetoothTask(taskType,onTaskListener).execute(device);
         }
         return this;
     }
 
-    public BlueBoothPrintUtil connectDevice(BluetoothDevice device, Object data) {
+    public BlueBoothPrintUtil connectDevice(BluetoothDevice device, Object data,OnTaskListener onTaskListener) {
         if (device != null) {
-            mConnectTask = new ConnectBluetoothTask(data).execute(device);
+            mConnectTask = new ConnectBluetoothTask(data,onTaskListener).execute(device);
         }
         return this;
     }
@@ -69,24 +69,26 @@ public class BlueBoothPrintUtil {
         void onEnd(boolean success);
     }
 
-    OnTaskListener onTaskListener;
-
-    public void setOnTaskListener(OnTaskListener onTaskListener) {
-        this.onTaskListener = onTaskListener;
-    }
+//    OnTaskListener onTaskListener;
+//
+//    public void setOnTaskListener(OnTaskListener onTaskListener) {
+//        this.onTaskListener = onTaskListener;
+//    }
 
     @SuppressLint("StaticFieldLeak")
     protected class ConnectBluetoothTask extends AsyncTask<BluetoothDevice, Integer, BluetoothSocket> {
 
         int mTaskType;
         Object data;
-
-        public ConnectBluetoothTask(int taskType) {
+        OnTaskListener onTaskListener;
+        public ConnectBluetoothTask(int taskType,OnTaskListener onTaskListener) {
             this.mTaskType = taskType;
+            this.onTaskListener=onTaskListener;
         }
 
-        public ConnectBluetoothTask(Object data) {
+        public ConnectBluetoothTask(Object data,OnTaskListener onTaskListener) {
             this.data = data;
+            this.onTaskListener=onTaskListener;
         }
 
         @Override
@@ -113,12 +115,7 @@ public class BlueBoothPrintUtil {
                 } else {
                     onConnected(mSocket, mTaskType);
                 }
-            }/*else {
-//                Handler handler = new Handler(Looper.getMainLooper());
-                Looper.prepare();
-                Toast.makeText(App.appContext, "打印机未开启", Toast.LENGTH_SHORT).show();
-                Looper.loop();
-            }*/
+            }
             return mSocket;
         }
 

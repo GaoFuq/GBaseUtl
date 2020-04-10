@@ -2,9 +2,12 @@ package com.gfq.gbaseutl.util;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
+import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
@@ -48,5 +51,31 @@ public class IPUtils {
         }
         return hostIp;
 
+    }
+
+    /**
+     * 测试某个ip地址能否连接
+     * @param ip
+     * @param port
+     * @return
+     */
+    public static boolean ipConnectTest(String ip,int port){
+        Socket socket = new Socket();
+        try {
+            socket.connect(new InetSocketAddress(ip, port),1000);//建立连接
+            return socket.isConnected();//通过现有方法查看连通状态
+        } catch (IOException e) {
+            return false;
+        }finally{
+            try {
+                socket.close();
+            } catch (IOException e) { }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        boolean b = ipConnectTest("120.79.26.20", 812);
+        System.out.println(b);
     }
 }

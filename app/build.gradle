@@ -63,7 +63,7 @@ dependencies {
     //日历
     api 'com.haibin:calendarview:3.6.7'
     //刷新
-    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-14'
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     //播放器
     api 'com.shuyu:GSYVideoPlayer:7.1.1'
     //图片加载
