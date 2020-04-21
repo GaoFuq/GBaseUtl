@@ -30,4 +30,11 @@
         <attr name="stuckShadowHeight" format="dimension" />
         <attr name="stuckShadowDrawable" format="reference" />
     </declare-styleable>
+
+
+        <declare-styleable name="MarqueeView"><attr format="enum" name="marqueeview_repet_type">
+            <enum name="repet_oncetime" value="0"/>
+            <enum name="repet_interval" value="1"/>
+            <enum name="repet_continuous" value="2"/>
+        </attr><attr format="integer" name="marqueeview_text_distance"/><attr format="float" name="marqueeview_text_startlocationdistance"/><attr format="float" name="marqueeview_text_speed"/><attr format="color|reference" name="marqueeview_text_color"/><attr format="float" name="marqueeview_text_size"/><attr format="boolean" name="marqueeview_isclickalbe_stop"/><attr format="boolean" name="marqueeview_is_resetLocation"/></declare-styleable>
 </resources>

@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.gfq.gbaseutl.ad.ADOnCallBack;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
@@ -113,5 +114,32 @@ public class APIService {
 
     }
 
+
+    public static <T> void callForAD(Observable<API<T>> apiObservable, Context context, ADOnCallBack<T> onCallBack) {
+        apiObservable.compose(upstream -> upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .map(tApi -> {
+                    if (tApi.getStatus() == 200) {
+                        return tApi.getData();
+                    } else {
+                        throw new ExceptionHandle.ServerException(tApi.getStatus(), tApi.getMsg());
+                    }
+                }))
+                .subscribe(new DisposableObserver<T>() {
+                    @Override
+                    public void onNext(T t) {
+                        onCallBack.onSuccess(t);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onCallBack.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+    }
 
 }

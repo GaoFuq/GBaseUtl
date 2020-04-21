@@ -88,4 +88,6 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.8'
 
+    implementation 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
+
 }
