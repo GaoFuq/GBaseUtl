@@ -13,12 +13,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
  * on {2019/10/17} {10:05}
  * desctapion:
  */
-public class BottomRoundCornerView extends FrameLayout {
+public class BaseBottomRoundDialog extends FrameLayout {
     private BottomSheetDialog dialog;
     protected Context context;
     private FrameLayout container;
 
-    public BottomRoundCornerView(Context context) {
+    public BaseBottomRoundDialog(Context context) {
         super(context);
         this.context = context;
         initBase();
@@ -36,13 +36,8 @@ public class BottomRoundCornerView extends FrameLayout {
         dialog.setCanceledOnTouchOutside(true);
     }
 
-  /*  public BottomRoundCornerView setContentView(@LayoutRes int layout){
-        View view = LayoutInflater.from(context).inflate(layout,container,false);
-        container.addView(view);
-        return this;
-    }*/
 
-    public BottomRoundCornerView setContentView(View view) {
+    public BaseBottomRoundDialog setContentView(View view) {
         container.addView(view);
         return this;
     }
@@ -55,5 +50,8 @@ public class BottomRoundCornerView extends FrameLayout {
         dialog.dismiss();
     }
 
+    public void setCanceledOnTouchOutside(boolean boo){
+        dialog.setCanceledOnTouchOutside(boo);
+    }
 
 }

@@ -74,7 +74,6 @@ public abstract class BaseActivity<a extends ViewDataBinding> extends AppCompatA
     protected void onDestroy() {
         super.onDestroy();
         networkReceiver.unRegister(this);
-
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,11 +92,6 @@ public abstract class BaseActivity<a extends ViewDataBinding> extends AppCompatA
     private   void initLoadingDialog(){
         loadingDialog= new RoundDialog(this);
         loadingDialog.setCanceledOnTouchOutside(false);
-//        View myView = loadingDialog.setMyView(R.layout.dialog_loading);
-//       textView = myView.findViewById(R.id.msg);
-//        llBack = myView.findViewById(R.id.ll_back);
-//        bar = myView.findViewById(R.id.bar);
-//        llBack.setOnClickListener(l->{finish();});
     }
 
 

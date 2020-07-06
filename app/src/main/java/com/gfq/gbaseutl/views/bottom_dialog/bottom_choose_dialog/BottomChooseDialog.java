@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.gfq.gbaseutl.R;
 import com.gfq.gbaseutl.databinding.BottomChooseDialogBinding;
-import com.gfq.gbaseutl.views.bottom_dialog.BottomRoundCornerView;
+import com.gfq.gbaseutl.views.bottom_dialog.BaseBottomRoundDialog;
 import com.gfq.gbaseutl.views.wheelview.WheelAdapter;
 import com.gfq.gbaseutl.views.wheelview.WheelView;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * on {2019/10/17} {15:26}
  * desctapion:
  */
-public abstract class BottomChooseDialog<T> extends BottomRoundCornerView {
+public abstract class BottomChooseDialog<T> extends BaseBottomRoundDialog {
     private BottomChooseDialogBinding binding;
     private List<T> dataList;
     private T content;

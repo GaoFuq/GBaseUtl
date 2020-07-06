@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.gfq.gbaseutl.R;
 import com.gfq.gbaseutl.databinding.BottomCalenderBinding;
-import com.gfq.gbaseutl.views.bottom_dialog.BottomRoundCornerView;
+import com.gfq.gbaseutl.views.bottom_dialog.BaseBottomRoundDialog;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 
@@ -20,7 +20,7 @@ import java.util.Map;
  * on {2019/10/17} {11:21}
  * desctapion:
  */
-public class BottomCalenderDialog extends BottomRoundCornerView {
+public class BottomCalenderDialog extends BaseBottomRoundDialog {
     private BottomCalenderBinding binding;
     private Map<String, Calendar> map;
     private int year;

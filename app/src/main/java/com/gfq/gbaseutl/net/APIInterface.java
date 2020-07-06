@@ -8,13 +8,22 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 import static com.gfq.gbaseutl.net.APIService.BASE_URL;
 
@@ -33,6 +42,27 @@ import static com.gfq.gbaseutl.net.APIService.BASE_URL;
  * 范例：
  */
 public interface APIInterface {
+
+    //下载文件
+    @Streaming
+    @GET
+    Observable<ResponseBody> executeDownload(@Url() String url);
+
+    /**
+     * 上传单张图片
+     */
+    @Multipart
+    @POST(BASE_URL + "api/upload/uploadImg")
+    Observable<API<List<String>>> uploadImg(@Part MultipartBody.Part file);
+
+
+    /**
+     * 上传多张图片
+     */
+    @Multipart
+    @POST(BASE_URL + "api/upload/uploadImg")
+//    @POST("http://gfq.free.idcfengye.com/upload")
+    Observable<API<List<String>>> uploadImgs(@PartMap Map<String, RequestBody> files);
 
 
 //        @GET(BASE_URL+"/android/login")

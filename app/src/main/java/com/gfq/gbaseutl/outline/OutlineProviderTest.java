@@ -1,7 +1,6 @@
-package com.gfq.gbaseutl.test;
+package com.gfq.gbaseutl.outline;
 
 import android.graphics.Outline;
-import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewOutlineProvider;
