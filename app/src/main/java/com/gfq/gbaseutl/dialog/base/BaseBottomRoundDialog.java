@@ -1,4 +1,4 @@
-package com.gfq.gbaseutl.views.bottom_dialog;
+package com.gfq.gbaseutl.dialog.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;

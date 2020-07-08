@@ -1,4 +1,4 @@
-package com.gfq.gbaseutl.views.bottom_dialog.bottom_calender_dialog;
+package com.gfq.gbaseutl.dialog.calender;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.gfq.gbaseutl.R;
 import com.gfq.gbaseutl.databinding.BottomCalenderBinding;
-import com.gfq.gbaseutl.views.bottom_dialog.BaseBottomRoundDialog;
+import com.gfq.gbaseutl.dialog.base.BaseBottomRoundDialog;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 

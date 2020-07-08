@@ -1,4 +1,4 @@
-package com.gfq.gbaseutl.views.bottom_dialog.bottom_choose_dialog;
+package com.gfq.gbaseutl.dialog.base;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,10 +7,8 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
-
 import com.gfq.gbaseutl.R;
 import com.gfq.gbaseutl.databinding.BottomChooseDialogBinding;
-import com.gfq.gbaseutl.views.bottom_dialog.BaseBottomRoundDialog;
 import com.gfq.gbaseutl.views.wheelview.WheelAdapter;
 import com.gfq.gbaseutl.views.wheelview.WheelView;
 

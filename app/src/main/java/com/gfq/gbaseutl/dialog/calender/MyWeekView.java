@@ -1,4 +1,4 @@
-package com.gfq.gbaseutl.views.bottom_dialog.bottom_calender_dialog;
+package com.gfq.gbaseutl.dialog.calender;
 
 import android.content.Context;
 import android.graphics.BlurMaskFilter;
