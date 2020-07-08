@@ -91,6 +91,8 @@ public class APIService {
                     msg = tApi.getMsg();
                     if (tApi.getStatus() == 200 || tApi.getStatus() == 204) {
                         return tApi.getData();
+                    } else if (tApi.getStatus() == 401) {
+                        throw new HandleException(tApi.getMsg(), tApi.getStatus());
                     } else {
                         throw new RuntimeException("xxx");
                     }
