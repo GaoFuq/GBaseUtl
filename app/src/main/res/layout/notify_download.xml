@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="15dp"
+    android:paddingRight="10dp">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher_round"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="@color/colorPrimary" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="已下载"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="match_parent"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="共20M"
+                android:textColor="#333333"/>
+        </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/tv_progress"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="left"-->
+<!--            android:text="已下载"-->
+<!--            android:textColor="#333333"/>-->
+    </LinearLayout>
+</LinearLayout>
+

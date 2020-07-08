@@ -72,6 +72,9 @@ public interface APIInterface {
     @GET(BASE_URL + "/android/getAdvertisementList")
     Observable<API<List<Ad>>> getAdUrl(@Query("name") String name);
 
+    @GET(BASE_URL + "/android/getAppVersion")
+    Observable<API<Integer>> getAppVersion();
+
     @POST(BASE_URL + "/machine/ad/view")
     @FormUrlEncoded
     Observable<API<String>> updateAdViewCount(@Field("id") Integer adId, @Field("machineNO") String machineNo);

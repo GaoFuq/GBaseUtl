@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.gfq.gbaseutl.App;
 
+import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ComUtil {
@@ -34,6 +36,16 @@ public class ComUtil {
                 Toast.makeText(App.appContext, msg, Toast.LENGTH_SHORT).show();
             }
     }
+
+    public static String getFileSize(String fileSize) {
+        String[] arr = {"Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+        float srcsize = Float.parseFloat(fileSize);
+        int index = (int) (Math.floor(Math.log(srcsize) / Math.log(1024)));
+        double size = srcsize / Math.pow(1024, index);
+        size = Double.parseDouble(new DecimalFormat("#.00").format(size));
+        return size + arr[index];
+    }
+
 
     /**
      * 对数据进行分割

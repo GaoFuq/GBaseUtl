@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- 自定义星星属性 -->
+    <declare-styleable name="Star">
+    <attr format="integer" name="starsNum" />
+    <attr format="dimension" name="starWidth" />
+    <attr format="dimension" name="starHeight" />
+    <attr format="dimension" name="starDistance" />
+    <attr format="reference" name="starBackground" />
+    <attr format="reference" name="starDrawBackground" />
+    <attr format="boolean" name="starClickable" />
+    <attr format="boolean" name="isStatic" />
+    </declare-styleable>
+
     <declare-styleable name="AddressWheelView">
         <attr name="gravity">
             <enum name="center" value="17"/>
